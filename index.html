@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midnight Sapphire Gift for Tanishka</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        :root {
+            --sapphire-dark: #0f172a;
+            --sapphire-mid: #1e3a8a;
+            --sapphire-light: #3b82f6;
+            --silver: #e2e8f0;
+            --gold-shine: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Star Background */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Persistent Website Banner */
+        .web-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid #bf953f;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .banner-logo {
+            font-family: 'Press Start 2P', cursive; /* Minecraft font */
+            font-size: 1rem;
+            background: var(--gold-shine);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+            letter-spacing: -1px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .float-container {
+            position: relative;
+            z-index: 10;
+            animation: float 5s ease-in-out infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 70px; /* Offset for banner */
+        }
+
+        /* Envelope Styling (Minecraft Style) */
+        .envelope-wrapper {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background: #1e293b; 
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 3px solid #000;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.05);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6);
+        }
+
+        .envelope-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 4;
+            border-top: 110px solid #334155; 
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            transform-origin: top;
+            transition: transform 0.6s 0.1s;
+        }
+
+        .envelope-front {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            border-bottom: 110px solid #1e293b;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            pointer-events: none;
+        }
+
+        .trophy-seal {
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+            background: #4a4a4a;
+            width: 80px;
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #000;
+            font-size: 10px;
+            color: #fff;
+            image-rendering: pixelated;
+            box-shadow: inset -4px -4px 0px #2a2a2a, inset 4px 4px 0px #8a8a8a;
+        }
+
+        .envelope-wrapper.open::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        
+        .envelope-wrapper.open .trophy-seal {
+            opacity: 0;
+            transform: translateX(-50%) scale(0);
+        }
+
+        .letter-preview {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            bottom: 10px;
+            background: #ffffff;
+            z-index: 2;
+            transition: transform 0.8s, opacity 0.5s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            border: 1px solid #ddd;
+        }
+
+        .envelope-wrapper.open .letter-preview {
+            transform: translateY(-140px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            opacity: 1;
+        }
+
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            text-align: center;
+            width: 95%;
+            max-width: 550px;
+            z-index: 20;
+            margin-top: 70px;
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 4rem 2.5rem;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+            color: var(--silver);
+        }
+
+        .gold-shimmer {
+            background: var(--gold-shine);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        .btn-luck {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            transition: all 0.4s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .btn-luck:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        .wish-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+            font-weight: 800;
+            font-size: 1.1rem;
+            animation: pop-random 3s ease-out forwards;
+            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+            text-align: center;
+            max-width: 250px;
+        }
+
+        @keyframes pop-random {
+            0% { transform: scale(0) translateY(0); opacity: 0; }
+            20% { transform: scale(1.2) translateY(-20px); opacity: 1; }
+            100% { transform: scale(0.8) translateY(-250px); opacity: 0; }
+        }
+
+        #instruction {
+            color: var(--silver);
+            font-weight: 400;
+            letter-spacing: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.7rem 2rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        
+        .name-reveal {
+            font-family: 'Dancing Script', cursive;
+            color: var(--sapphire-light);
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container" id="stars-container"></div>
+
+    <!-- Web Banner visible on both slides -->
+    <nav class="web-banner">
+        <div class="banner-logo">TANISHKA</div>
+    </nav>
+
+    <div id="envelope-container" class="flex flex-col items-center">
+        <div class="float-container" id="floating-box">
+            <div class="envelope-wrapper" id="envelope">
+                <div class="envelope-front"></div>
+                <div class="trophy-seal">T🏆V</div>
+                <div class="letter-preview">
+                    <p class="text-slate-800 font-bold mb-1" style="font-size: 10px;">FOR TANISHKA</p>
+                    <div class="w-16 h-1 bg-blue-500 mb-2"></div>
+                    <p class="text-[6px] text-slate-500 uppercase">Luck bubbles inside</p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-16 text-center relative z-10">
+            <p id="instruction" class="animate-pulse" style="font-family: 'Press Start 2P', cursive; font-size: 0.6rem;">Open for Luck 🌙</p>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="glass">
+            <div class="text-6xl mb-4">🧿</div>
+            <div class="name-reveal">Go Tanishka</div>
+            <h1 class="text-6xl mb-8 font-bold gold-shimmer">❤️(". ")❤️</h1>
+            <p class="text-slate-300 mb-10 leading-relaxed text-lg font-light italic">
+                Believe in yourself, stay calm, and let your knowledge shine.<br>
+                Smash those exams—Wishing for your success!
+            </p>
+            
+            <button class="btn-luck text-xl flex items-center justify-center mx-auto gap-3" onclick="triggerLuck()">
+                <span>Claim Your Luck</span> 
+                <span class="text-2xl animate-bounce">💎</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const starsContainer = document.getElementById('stars-container');
+        function createStars() {
+            const starCount = 150;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', (2 + Math.random() * 4) + 's');
+                star.style.animationDelay = Math.random() * 5 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+
+        let audioCtx;
+        function playSound(type) {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const now = audioCtx.currentTime;
+            
+            if (type === 'open') {
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((f, i) => {
+                    const osc = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now + i * 0.1);
+                    g.gain.setValueAtTime(0, now + i * 0.1);
+                    g.gain.linearRampToValueAtTime(0.05, now + i * 0.1 + 0.02);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.8);
+                    osc.connect(g).connect(audioCtx.destination);
+                    osc.start(now + i * 0.1);
+                    osc.stop(now + 1.5);
+                });
+            } else if (type === 'bubble') {
+                if (Math.random() < 0.4) {
+                    const osc = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800 + Math.random() * 400, now);
+                    osc.frequency.exponentialRampToValueAtTime(2000, now + 0.1);
+                    g.gain.setValueAtTime(0.05, now);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+                    osc.connect(g).connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(now + 0.2);
+                }
+            }
+        }
+
+        const envelope = document.getElementById('envelope');
+        const floatingBox = document.getElementById('floating-box');
+        const container = document.getElementById('envelope-container');
+        const mainContent = document.getElementById('main-content');
+        
+        const wishes = [
+            "YOU ARE AWESOME 😎", 
+            "ACE THAT PAPER! 📝", 
+            "KANHAIYA'S GRACE 🦚", 
+            "BRAIN POWER 100% 🧠", 
+            "YOU'VE GOT THIS! 💪", 
+            "FUTURE TOPPER 🥇", 
+            "STELLAR RESULTS ⭐", 
+            "SMASH IT! 🔨", 
+            "VICTORY IS YOURS 🏆", 
+            "STAY CALM & KILL IT 🔥"
+        ];
+        const colors = ["#ffffff", "#93c5fd", "#3b82f6", "#e2e8f0", "#fbbf24"];
+
+        envelope.addEventListener('click', () => {
+            playSound('open');
+            floatingBox.style.animation = "none";
+            envelope.classList.add('open');
+            
+            setTimeout(() => {
+                container.style.transition = "all 1s ease";
+                container.style.opacity = "0";
+                container.style.transform = "scale(0.9) translateY(20px)";
+                setTimeout(() => {
+                    container.style.display = "none";
+                    mainContent.style.display = "block";
+                    setTimeout(() => { mainContent.style.opacity = "1"; }, 50);
+                }, 1000);
+            }, 2500);
+        });
+
+        function triggerLuck() {
+            for (let i = 0; i < 45; i++) {
+                setTimeout(() => {
+                    const p = document.createElement('div');
+                    p.className = 'wish-particle';
+                    p.innerText = wishes[Math.floor(Math.random() * wishes.length)];
+                    p.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    p.style.left = (Math.random() * 80 + 10) + 'vw';
+                    p.style.top = (Math.random() * 80 + 10) + 'vh';
+                    document.body.appendChild(p);
+                    playSound('bubble');
+                    setTimeout(() => p.remove(), 3000);
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>
+
